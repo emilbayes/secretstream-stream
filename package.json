@@ -1,0 +1,32 @@
+{
+  "name": "secretstream-stream",
+  "version": "0.0.0",
+  "description": "High-level node.js stream of libsodium crypto_secretstream",
+  "main": "index.js",
+  "dependencies": {
+    "block-stream2": "^1.1.0",
+    "nanoassert": "^1.1.0",
+    "pump": "^3.0.0",
+    "pumpify": "^1.4.0",
+    "read-bytes-stream": "^1.0.1",
+    "sodium-native": "^2.1.4",
+    "through2": "^2.0.3"
+  },
+  "devDependencies": {
+    "tape": "^4.8.0"
+  },
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emilbayes/secretstream-stream.git"
+  },
+  "keywords": [],
+  "author": "Emil Bay <github@tixz.dk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emilbayes/secretstream-stream/issues"
+  },
+  "homepage": "https://github.com/emilbayes/secretstream-stream#readme"
+}
