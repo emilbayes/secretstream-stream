@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "nanoassert": "^1.1.0",
-    "sodium-native": "^2.1.4",
+    "sodium-native": "^2.1.4"
   },
   "devDependencies": {},
   "scripts": {
