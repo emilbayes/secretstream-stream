@@ -2,20 +2,19 @@ var secretstream = require('.')
 var sodium = require('sodium-native')
 
 // Parameters
-var blockSize = 512 - secretstream.ABYTES // Will ensure blocks of 512 bytes
 var header = Buffer.alloc(secretstream.HEADERBYTES)
 var key = Buffer.alloc(secretstream.KEYBYTES)
 
 // Initialise
-sodium.randombytes_buf(header)
 sodium.randombytes_buf(key)
 
-// Write some data on the encrypt side
-var enc = secretstream.encrypt(blockSize, header, key)
-enc.write('Hello world!')
+// Init encryption side, writing into header Buffer, which needs to be shared
+// with decryption side
+var tx = secretstream.encrypt(header, key)
+var ciphertext = tx.encrypt(secretstream.TAG_MESSAGE, Buffer.from('Hello world!'))
 
 // Setup the decrypt side
-var dec = secretstream.decrypt(blockSize, header, key)
-dec.on('data', d => console.log('rx:', d.toString()))
+var rx = secretstream.decrypt(header, key)
+var plaintext = rx.decrypt(ciphertext)
 
-enc.pipe(dec)
+console.log(plaintext.equals(Buffer.from('Hello world!')), rx.decrypt.tag.equals(secretstream.TAG_MESSAGE))
