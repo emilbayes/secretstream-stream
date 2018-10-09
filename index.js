@@ -18,10 +18,13 @@ exports.encrypt = function (header, key) {
   assert(Buffer.isBuffer(key), 'key must be Buffer')
   assert(key.byteLength >= exports.KEYBYTES, 'key must be at least KEYBYTES (' + exports.KEYBYTES + ') long')
 
+  var destroyed = false
   var state = sodium.crypto_secretstream_xchacha20poly1305_state_new()
   sodium.crypto_secretstream_xchacha20poly1305_init_push(state, header, key)
 
   function encrypt (tag, plaintext, ad, ciphertext, offset) {
+    assert(destroyed === false, 'state already destroyed')
+    assert(Buffer.isBuffer(plaintext), 'plaintext must be Buffer')
     if (ciphertext == null) ciphertext = Buffer.alloc(encryptionLength(plaintext))
     if (offset == null) offset = 0
 
@@ -33,12 +36,23 @@ exports.encrypt = function (header, key) {
   encrypt.bytes = 0
 
   function encryptionLength (plaintext) {
+    assert(Buffer.isBuffer(plaintext), 'plaintext must be Buffer')
+
     return plaintext.byteLength + exports.ABYTES
+  }
+
+  function destroy () {
+    assert(destroyed === false, 'state already destroyed')
+    state = null // Should memzero when we have buffer trick in sodium-native
+    encrypt.bytes = null
+
+    destroyed = true
   }
 
   return {
     encrypt,
-    encryptionLength
+    encryptionLength,
+    destroy
   }
 }
 
@@ -49,10 +63,13 @@ exports.decrypt = function (header, key) {
   assert(Buffer.isBuffer(key), 'key must be Buffer')
   assert(key.byteLength >= exports.KEYBYTES, 'key must be at least KEYBYTES (' + exports.KEYBYTES + ') long')
 
+  var destroyed = false
   var state = sodium.crypto_secretstream_xchacha20poly1305_state_new()
   sodium.crypto_secretstream_xchacha20poly1305_init_pull(state, header, key)
 
   function decrypt (ciphertext, ad, plaintext, offset) {
+    assert(destroyed === false, 'state already destroyed')
+    assert(Buffer.isBuffer(ciphertext), 'ciphertext must be Buffer')
     if (plaintext == null) plaintext = Buffer.alloc(decryptionLength(ciphertext))
     if (offset == null) offset = 0
 
@@ -65,11 +82,23 @@ exports.decrypt = function (header, key) {
   decrypt.bytes = 0
 
   function decryptionLength (ciphertext) {
+    assert(Buffer.isBuffer(ciphertext), 'ciphertext must be Buffer')
+
     return ciphertext.byteLength - exports.ABYTES
+  }
+
+  function destroy () {
+    assert(destroyed === false, 'state already destroyed')
+    state = null // Should memzero when we have buffer trick in sodium-native
+    decrypt.tag = null
+    decrypt.bytes = null
+
+    destroyed = true
   }
 
   return {
     decrypt,
-    decryptionLength
+    decryptionLength,
+    destroy
   }
 }

@@ -65,6 +65,11 @@ Calculate the required length for a `ciphertext` from `plaintext` Buffer.
 
 Number of bytes written into `ciphertext` at last call to `tx.encrypt`
 
+### `tx.destroy()`
+
+Destroys the internal state and zero all memory. Can only be called once,
+you may never call `encrypt` after and sets `.bytes` to `null`.
+
 ### `var rx = secretstream.decrypt(header, key)`
 
 Create an decrypt instance with `key`, using `header` from `encrypt`.
@@ -89,6 +94,11 @@ A tag Buffer for the tag from the last decrypted `ciphertext`. Should be
 compared against one of the exported tags. Please review the [libsodium
 documentation](https://download.libsodium.org/doc/secret-key_cryptography/secretstream#usage)
 for how tags should be interpreted.
+
+### `rx.destroy()`
+
+Destroys the internal state and zero all memory. Can only be called once,
+you may never call `encrypt` after and sets `.bytes` and `.tag` to `null`.
 
 ## Install
 
