@@ -7,16 +7,15 @@ node_js:
 jobs:
   include:
     matrix:
-      matrix:
-      - stage: npm release
-        node_js: node
-        script: echo "Deploying to npm ..."
-        deploy:
-          provider: npm
-          email:
-            secure: odNPdZov35GAcqvjPXE8V6+YUvS1kCi7use11IbUgGL0LpaVVh9rjCNUHH0z+WBPrroXSd1zOCdsIA6RDIWjGdkVjKppXqfYPReVY812bIRT19RlYIbhJgNV9r2HFvD9Ne+gyr2musbZr2pu0zal05KE6x8vC07G/T8YAKOJCP1ymR09Jyqnvng8eXfBKD0EMxyFwDB+oBqosw815cD3iFj5mJy5UvQRkJfFWpG5GtXNXKz6YBoY7F769p8MYKyN+aVFhBKSdufUJMp0mT3jk47RS89S93UU+0xHe8YKUQGeXGDU52XyH4eVFQ3bn1PsVQa7fcu66SE9FuuVCMdqp+7F1RcHJ+0Ip15NfIUwvHAeDAWbaDPiqIxZqP6PJMqlfPmJCYOCb1pRhzfRWKkHd9qTaFrJdbS/4SvdroKp/7hiYWvE2ZQkWG1kVrlwwlMLLaWzQMpYauLig8FOebjZVrhvqVbfS8x1rteHeckaSfKcUeKfcTpAN/UBDeFP2DEKj5w0AsnPnLgC9xS8TB3mYzpDrsEjLJNjNLWyAEbyrwwXAL87GfqBgAtkl4vA9/KJLvRd75fuWhz+WaPmNmEJbM3XoHXt9bmVlLJSlY08Of8eFH+vH8lzxc+I1awADf4ji7EqUfrpKQB5MvWJLK8FX/saA+EV4f+5DYbU014yTlw=
-          api_key:
-            secure: bgbUlIgpUMQpN/CoVyd4D/FzdEutEj6x95SD3HDpf4AfkCSxSy0o9SSt1xWE4qXu1xniOb7gFcdozI3w97w29hXWMrRX1Ka5CFb47cuKL3QRYnNeX6fvUaj+1vOV6nJvjurhsxxPagNIeYlcSRL1zKCdGZqfBBKoXCP1Db9cAKwZYNotWEvn6uNe+X27veyXOkVeJ0G8+z76Ob65qQNxglg05XlAM4xc1+wweEKNZtInDyXPwJlYpJN3cEC+V/cAYEfnA6HYL/II0T+omXoxxJ4E+CEHbuuPsQKM7iwxrgqNFFmhlTkQBFo37s5b1/wgfHPZitKULOTuedzw/fZMa7PPacTjugEJ2Us9AuUInZXxx7oVf5J3dzRZUA+xvOZoIWkd0zEMhSwybT07c/nDilgM9PjJxPDBDGygk8v6baxNDMhgS1VUc26whVAUxaXGMj58MN43okn0Vy8MkGRE5hz8dqWboJ2rmAxapMqu+6pm+pHSiLJX5ua3m7XgouMx+iLaYr9tsMsWBPjRJauQBZvxkN4Z4tpm9uqB95MWeSMz8zaQgSo6tbqfOE10YvLMEnOYs64fJxeJbin4YuxL499qsiDkfrh8VJrptUhKV6pUxCQCl6H0Hva6XWVidLWaZEa4sCG48ODUBhdcIOUCMUV+kcJDFQ9X3nneg9efKTA=
-          on:
-            tags: true
-            node: node
+    - stage: npm release
+      node_js: node
+      script: echo "Deploying to npm ..."
+      deploy:
+        provider: npm
+        email:
+          secure: odNPdZov35GAcqvjPXE8V6+YUvS1kCi7use11IbUgGL0LpaVVh9rjCNUHH0z+WBPrroXSd1zOCdsIA6RDIWjGdkVjKppXqfYPReVY812bIRT19RlYIbhJgNV9r2HFvD9Ne+gyr2musbZr2pu0zal05KE6x8vC07G/T8YAKOJCP1ymR09Jyqnvng8eXfBKD0EMxyFwDB+oBqosw815cD3iFj5mJy5UvQRkJfFWpG5GtXNXKz6YBoY7F769p8MYKyN+aVFhBKSdufUJMp0mT3jk47RS89S93UU+0xHe8YKUQGeXGDU52XyH4eVFQ3bn1PsVQa7fcu66SE9FuuVCMdqp+7F1RcHJ+0Ip15NfIUwvHAeDAWbaDPiqIxZqP6PJMqlfPmJCYOCb1pRhzfRWKkHd9qTaFrJdbS/4SvdroKp/7hiYWvE2ZQkWG1kVrlwwlMLLaWzQMpYauLig8FOebjZVrhvqVbfS8x1rteHeckaSfKcUeKfcTpAN/UBDeFP2DEKj5w0AsnPnLgC9xS8TB3mYzpDrsEjLJNjNLWyAEbyrwwXAL87GfqBgAtkl4vA9/KJLvRd75fuWhz+WaPmNmEJbM3XoHXt9bmVlLJSlY08Of8eFH+vH8lzxc+I1awADf4ji7EqUfrpKQB5MvWJLK8FX/saA+EV4f+5DYbU014yTlw=
+        api_key:
+          secure: bgbUlIgpUMQpN/CoVyd4D/FzdEutEj6x95SD3HDpf4AfkCSxSy0o9SSt1xWE4qXu1xniOb7gFcdozI3w97w29hXWMrRX1Ka5CFb47cuKL3QRYnNeX6fvUaj+1vOV6nJvjurhsxxPagNIeYlcSRL1zKCdGZqfBBKoXCP1Db9cAKwZYNotWEvn6uNe+X27veyXOkVeJ0G8+z76Ob65qQNxglg05XlAM4xc1+wweEKNZtInDyXPwJlYpJN3cEC+V/cAYEfnA6HYL/II0T+omXoxxJ4E+CEHbuuPsQKM7iwxrgqNFFmhlTkQBFo37s5b1/wgfHPZitKULOTuedzw/fZMa7PPacTjugEJ2Us9AuUInZXxx7oVf5J3dzRZUA+xvOZoIWkd0zEMhSwybT07c/nDilgM9PjJxPDBDGygk8v6baxNDMhgS1VUc26whVAUxaXGMj58MN43okn0Vy8MkGRE5hz8dqWboJ2rmAxapMqu+6pm+pHSiLJX5ua3m7XgouMx+iLaYr9tsMsWBPjRJauQBZvxkN4Z4tpm9uqB95MWeSMz8zaQgSo6tbqfOE10YvLMEnOYs64fJxeJbin4YuxL499qsiDkfrh8VJrptUhKV6pUxCQCl6H0Hva6XWVidLWaZEa4sCG48ODUBhdcIOUCMUV+kcJDFQ9X3nneg9efKTA=
+        on:
+          tags: true
+          node: node
