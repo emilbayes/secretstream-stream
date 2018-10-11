@@ -23,6 +23,9 @@ var rx = secretstream.decrypt(header, key)
 var plaintext = rx.decrypt(ciphertext)
 
 console.log(plaintext.equals(Buffer.from('Hello world!')), rx.decrypt.tag.equals(secretstream.TAG_MESSAGE))
+
+tx.destroy()
+rx.destroy()
 ```
 
 ## API
