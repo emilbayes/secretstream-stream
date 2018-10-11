@@ -20,4 +20,3 @@ jobs:
           on:
             tags: true
             node: node
-      deploy:
