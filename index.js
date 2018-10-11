@@ -33,6 +33,7 @@ exports.encrypt = function (header, key) {
 
   function encrypt (tag, plaintext, ad, ciphertext, offset) {
     assert(destroyed === false, 'state already destroyed')
+    assert(Buffer.isBuffer(tag) && tag.byteLength === 1, 'plaintext must be a valid tag')
     assert(Buffer.isBuffer(plaintext), 'plaintext must be Buffer')
     if (ciphertext == null) ciphertext = Buffer.alloc(encryptionLength(plaintext))
     if (offset == null) offset = 0
