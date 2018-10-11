@@ -11,6 +11,15 @@ exports.TAG_MESSAGE = sodium.crypto_secretstream_xchacha20poly1305_TAG_MESSAGE
 exports.TAG_FINAL = sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
 exports.TAG_REKEY = sodium.crypto_secretstream_xchacha20poly1305_TAG_REKEY
 
+exports.keygen = function (key) {
+  if (key == null) key = sodium.sodium_malloc(exports.KEYBYTES)
+  assert(key.byteLength >= exports.KEYBYTES, 'key must be at least KEYBYTES')
+
+  sodium.crypto_secretstream_xchacha20poly1305_keygen(key)
+
+  return key
+}
+
 exports.encrypt = function (header, key) {
   assert(Buffer.isBuffer(header), 'header must be Buffer')
   assert(header.byteLength >= exports.HEADERBYTES, 'header must be at least HEADERBYTES (' + exports.HEADERBYTES + ') long')

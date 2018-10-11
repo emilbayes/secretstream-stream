@@ -8,14 +8,10 @@ Someday there will be a stream interface here too
 
 ```js
 var secretstream = require('secretstream-stream')
-var sodium = require('sodium-native')
 
 // Parameters
 var header = Buffer.alloc(secretstream.HEADERBYTES)
-var key = Buffer.alloc(secretstream.KEYBYTES)
-
-// Initialise
-sodium.randombytes_buf(key)
+var key = secretstream.keygen()
 
 // Init encryption side, writing into header Buffer, which needs to be shared
 // with decryption side
@@ -45,6 +41,12 @@ console.log(plaintext.equals(Buffer.from('Hello world!')), rx.decrypt.tag.equals
 - `secretstream.TAG_PUSH`
 - `secretstream.TAG_FINAL`
 - `secretstream.TAG_REKEY`
+
+### `var key = secretstream.keygen([key])`
+
+Generate a new symmetric key for use with `.encrypt` and `.decrypt`. The key is
+stored in a sodium Secure Buffer. You can also save a allocation by passing in
+the key buffer, which must be at least `.KEYBYTES` bytes.
 
 ### `var tx = secretstream.encrypt(header, key)`
 
