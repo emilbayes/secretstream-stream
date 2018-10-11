@@ -1,5 +1,7 @@
 # `secretstream-stream`
 
+[![Build Status](https://travis-ci.org/emilbayes/secretstream-stream.svg?branch=master)](https://travis-ci.org/emilbayes/secretstream-stream)
+
 > Abstract encoding API of `libsodium` `crypto_secretstream`
 
 Someday there will be a stream interface here too
