@@ -28,10 +28,10 @@ exports.encrypt = function (header, key) {
   assert(key.byteLength >= exports.KEYBYTES, 'key must be at least KEYBYTES (' + exports.KEYBYTES + ') long')
 
   var destroyed = false
-  var state = sodium.crypto_secretstream_xchacha20poly1305_state_new()
+  var state = sodium.sodium_malloc(sodium.crypto_secretstream_xchacha20poly1305_STATEBYTES)
   sodium.crypto_secretstream_xchacha20poly1305_init_push(state, header, key)
 
-  function encrypt (tag, plaintext, ad, ciphertext, offset) {
+  function encrypt (tag, plaintext, ad = null, ciphertext, offset) {
     assert(destroyed === false, 'state already destroyed')
     assert(Buffer.isBuffer(tag) && tag.byteLength === 1, 'plaintext must be a valid tag')
     assert(Buffer.isBuffer(plaintext), 'plaintext must be Buffer')
@@ -53,6 +53,7 @@ exports.encrypt = function (header, key) {
 
   function destroy () {
     assert(destroyed === false, 'state already destroyed')
+    sodium.sodium_free(state)
     state = null // Should memzero when we have buffer trick in sodium-native
     encrypt.bytes = null
 
@@ -74,10 +75,10 @@ exports.decrypt = function (header, key) {
   assert(key.byteLength >= exports.KEYBYTES, 'key must be at least KEYBYTES (' + exports.KEYBYTES + ') long')
 
   var destroyed = false
-  var state = sodium.crypto_secretstream_xchacha20poly1305_state_new()
+  var state = sodium.sodium_malloc(sodium.crypto_secretstream_xchacha20poly1305_STATEBYTES)
   sodium.crypto_secretstream_xchacha20poly1305_init_pull(state, header, key)
 
-  function decrypt (ciphertext, ad, plaintext, offset) {
+  function decrypt (ciphertext, ad = null, plaintext, offset) {
     assert(destroyed === false, 'state already destroyed')
     assert(Buffer.isBuffer(ciphertext), 'ciphertext must be Buffer')
     if (plaintext == null) plaintext = Buffer.alloc(decryptionLength(ciphertext))
@@ -99,6 +100,7 @@ exports.decrypt = function (header, key) {
 
   function destroy () {
     assert(destroyed === false, 'state already destroyed')
+    sodium.sodium_free(state)
     state = null // Should memzero when we have buffer trick in sodium-native
     decrypt.tag = null
     decrypt.bytes = null
