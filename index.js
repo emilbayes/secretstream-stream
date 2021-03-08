@@ -21,10 +21,10 @@ exports.keygen = function (key) {
 }
 
 exports.encrypt = function (header, key) {
-  assert(Buffer.isBuffer(header), 'header must be Buffer')
+  assert(header instanceof Uint8Array, 'header must be Buffer')
   assert(header.byteLength >= exports.HEADERBYTES, 'header must be at least HEADERBYTES (' + exports.HEADERBYTES + ') long')
 
-  assert(Buffer.isBuffer(key), 'key must be Buffer')
+  assert(key instanceof Uint8Array, 'key must be Buffer')
   assert(key.byteLength >= exports.KEYBYTES, 'key must be at least KEYBYTES (' + exports.KEYBYTES + ') long')
 
   var destroyed = false
@@ -33,9 +33,9 @@ exports.encrypt = function (header, key) {
 
   function encrypt (tag, plaintext, ad = null, ciphertext, offset) {
     assert(destroyed === false, 'state already destroyed')
-    assert(Buffer.isBuffer(tag) && tag.byteLength === 1, 'plaintext must be a valid tag')
-    assert(Buffer.isBuffer(plaintext), 'plaintext must be Buffer')
-    if (ciphertext == null) ciphertext = Buffer.alloc(encryptionLength(plaintext))
+    assert(tag instanceof Uint8Array && tag.byteLength === 1, 'tag must be a valid tag')
+    assert(plaintext instanceof Uint8Array, 'plaintext must be Buffer')
+    if (ciphertext == null) ciphertext = new Uint8Array(encryptionLength(plaintext))
     if (offset == null) offset = 0
 
     encrypt.bytes = sodium.crypto_secretstream_xchacha20poly1305_push(state, ciphertext.subarray(offset), plaintext, ad, tag)
@@ -46,7 +46,7 @@ exports.encrypt = function (header, key) {
   encrypt.bytes = 0
 
   function encryptionLength (plaintext) {
-    assert(Buffer.isBuffer(plaintext), 'plaintext must be Buffer')
+    assert(plaintext instanceof Uint8Array, 'plaintext must be Buffer')
 
     return plaintext.byteLength + exports.ABYTES
   }
@@ -68,10 +68,10 @@ exports.encrypt = function (header, key) {
 }
 
 exports.decrypt = function (header, key) {
-  assert(Buffer.isBuffer(header), 'header must be Buffer')
+  assert(header instanceof Uint8Array, 'header must be Buffer')
   assert(header.byteLength >= exports.HEADERBYTES, 'header must be at least HEADERBYTES (' + exports.HEADERBYTES + ') long')
 
-  assert(Buffer.isBuffer(key), 'key must be Buffer')
+  assert(key instanceof Uint8Array, 'key must be Buffer')
   assert(key.byteLength >= exports.KEYBYTES, 'key must be at least KEYBYTES (' + exports.KEYBYTES + ') long')
 
   var destroyed = false
@@ -80,8 +80,8 @@ exports.decrypt = function (header, key) {
 
   function decrypt (ciphertext, ad = null, plaintext, offset) {
     assert(destroyed === false, 'state already destroyed')
-    assert(Buffer.isBuffer(ciphertext), 'ciphertext must be Buffer')
-    if (plaintext == null) plaintext = Buffer.alloc(decryptionLength(ciphertext))
+    assert(ciphertext instanceof Uint8Array, 'ciphertext must be Buffer')
+    if (plaintext == null) plaintext = new Uint8Array(decryptionLength(ciphertext))
     if (offset == null) offset = 0
 
     decrypt.bytes = sodium.crypto_secretstream_xchacha20poly1305_pull(state, plaintext.subarray(offset), decrypt.tag, ciphertext, ad)
@@ -89,11 +89,11 @@ exports.decrypt = function (header, key) {
     return plaintext
   }
 
-  decrypt.tag = Buffer.alloc(sodium.crypto_secretstream_xchacha20poly1305_TAGBYTES)
+  decrypt.tag = new Uint8Array(sodium.crypto_secretstream_xchacha20poly1305_TAGBYTES)
   decrypt.bytes = 0
 
   function decryptionLength (ciphertext) {
-    assert(Buffer.isBuffer(ciphertext), 'ciphertext must be Buffer')
+    assert(ciphertext instanceof Uint8Array, 'ciphertext must be Buffer')
 
     return ciphertext.byteLength - exports.ABYTES
   }
